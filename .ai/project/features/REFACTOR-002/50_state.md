@@ -50,14 +50,17 @@
 | 31_tasks_frontend.md | Done | ~4 |
 | 32_tasks_qa.md | Done | ~12 |
 | 35_dependencies.md | Done | ~6 |
+| 40_decisions.md | Done | ~8 |
+| 45_comprehension_report.md | Done | ~6 |
 | FEATURE_REFACTOR-002.md | Done | ~4 |
-| 50_state.md | Done | ~3 |
+| 50_state.md | Done | ~5 |
 
 ### Summary
-- **Total Documents**: 10
-- **Total Pages**: ~87
+- **Total Documents**: 12
+- **Total Pages**: ~103
 - **Tasks Defined**: 31 (19 BE + 4 FE + 8 QA)
 - **Estimated Time**: 6-7 days (parallel execution)
+- **Decisions Documented**: 10 architectural decisions
 
 ### Next Steps
 Use workflow 'default' for implementation:
@@ -174,12 +177,50 @@ Week 2
 
 ---
 
+## Comprehension Tracking
+
+**Debt Level**: 🟢 LOW
+**Last Checkpoint**: 2026-01-28 (Planning Complete)
+**Knowledge Score**: 5/5
+**Next Check Due**: After BE-008 (AggregatorExecutor) implementation
+
+### Debt Indicators
+| Indicator | Count | Notes |
+|-----------|-------|-------|
+| "Magic" code incidents | 0 | - |
+| Patterns copied without understanding | 0 | - |
+| Over-engineering flags | 0 | Architecture justified |
+| Unexplained abstractions | 0 | - |
+
+### Self-Review Status
+| Role | Self-Review Done | Score | Issues Found |
+|------|------------------|-------|--------------|
+| Planner | ✅ Complete | 5/5 | 2 minor (fixed) |
+| Backend | ⬜ Pending | - | - |
+| Frontend | ⬜ Pending | - | - |
+| QA | ⬜ Pending | - | - |
+
+### Knowledge Gaps Identified
+| Gap | Impact | Resolution |
+|-----|--------|------------|
+| `Utils::settle()` performance | Medium | Benchmark in QA-007 |
+| Context memory footprint | Low | Profile in staging |
+| Timeout handling behavior | Medium | Test with slow mocks |
+
+### Recommended Actions
+- Continue with current approach
+- Run comprehension check after BE-008
+- Validate assumptions during implementation
+
+---
+
 ## History
 
 | Date | Role | Action | Notes |
 |------|------|--------|-------|
 | 2026-01-28 | Planner | Complete planning | 10 documents created, 31 tasks defined |
+| 2026-01-28 | Planner | Comprehension review | Added 40_decisions.md, 45_comprehension_report.md |
 
 ---
 
-**Last commit**: [Pending - Planning documents]
+**Last commit**: docs(planner): Complete task-breakdown planning for REFACTOR-002

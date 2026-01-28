@@ -74,7 +74,9 @@ QA (27%)         ████████░░░░░░░░░░░░░
 | [31_tasks_frontend.md](./31_tasks_frontend.md) | 4 tareas frontend/documentación | ~4 |
 | [32_tasks_qa.md](./32_tasks_qa.md) | 8 tareas QA con test cases | ~12 |
 | [35_dependencies.md](./35_dependencies.md) | Mapa de dependencias, critical path | ~6 |
-| [50_state.md](./50_state.md) | Estado actual del planning | ~2 |
+| [40_decisions.md](./40_decisions.md) | 10 decisiones arquitectónicas con WHY | ~8 |
+| [45_comprehension_report.md](./45_comprehension_report.md) | Reporte de deuda de comprensión | ~6 |
+| [50_state.md](./50_state.md) | Estado y tracking de comprensión | ~5 |
 
 ---
 
@@ -179,6 +181,8 @@ QA (27%)         ████████░░░░░░░░░░░░░
 - [x] Tareas frontend desglosadas (31_tasks_frontend.md)
 - [x] Tareas QA desglosadas (32_tasks_qa.md)
 - [x] Dependencias mapeadas (35_dependencies.md)
+- [x] Decisiones documentadas con WHY (40_decisions.md)
+- [x] Comprehension review completada (45_comprehension_report.md)
 
 ### Backend (Pendiente)
 - [ ] Domain layer completo (BE-001 to BE-005)
