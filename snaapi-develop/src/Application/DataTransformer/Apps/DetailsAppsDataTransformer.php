@@ -8,7 +8,7 @@ namespace App\Application\DataTransformer\Apps;
 
 use App\Infrastructure\Enum\ClossingModeEnum;
 use App\Infrastructure\Enum\EditorialTypesEnum;
-use App\Infrastructure\Trait\UrlGeneratorTrait;
+use App\Infrastructure\Service\URLGenerationServiceInterface;
 use Ec\Editorial\Domain\Model\Editorial;
 use Ec\Encode\Encode;
 use Ec\Section\Domain\Model\Section;
@@ -19,8 +19,6 @@ use Ec\Tag\Domain\Model\Tag;
  */
 class DetailsAppsDataTransformer implements AppsDataTransformer
 {
-    use UrlGeneratorTrait;
-
     /** @var string */
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
@@ -32,9 +30,8 @@ class DetailsAppsDataTransformer implements AppsDataTransformer
     private array $tags;
 
     public function __construct(
-        string $extension,
+        private readonly URLGenerationServiceInterface $urlGenerationService,
     ) {
-        $this->setExtension($extension);
     }
 
     /**
@@ -112,7 +109,7 @@ class DetailsAppsDataTransformer implements AppsDataTransformer
             $this->editorial->id()->id()
         );
 
-        return $this->generateUrl(
+        return $this->urlGenerationService->generateGenericUrl(
             'https://%s.%s.%s/%s',
             $this->section->isSubdomainBlog() ? 'blog' : 'www',
             $this->section->siteId(),
@@ -135,7 +132,7 @@ class DetailsAppsDataTransformer implements AppsDataTransformer
         if (null === $section) {
             $section = $this->section;
         }
-        $url = $this->generateUrl(
+        $url = $this->urlGenerationService->generateGenericUrl(
             'https://%s.%s.%s/%s',
             $section->isSubdomainBlog() ? 'blog' : 'www',
             $section->siteId(),
@@ -167,7 +164,7 @@ class DetailsAppsDataTransformer implements AppsDataTransformer
             $result[] = [
                 'id' => $tag->id()->id(),
                 'name' => $tag->name(),
-                'url' => $this->generateUrl(
+                'url' => $this->urlGenerationService->generateGenericUrl(
                     'https://%s.%s.%s/%s',
                     'www',
                     $this->section->siteId(),

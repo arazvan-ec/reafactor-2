@@ -1,3 +1,11 @@
+parameters:
+    # Feature flag for gradual migration to EditorialOrchestratorFacade
+    # Set to true to enable the new facade-based orchestrator
+    orchestrator.facade.enabled: '%env(bool:ORCHESTRATOR_FACADE_ENABLED)%'
+    # Percentage of traffic to route to the new facade (0-100)
+    # Only used when orchestrator.facade.enabled is true
+    orchestrator.facade.percentage: '%env(int:ORCHESTRATOR_FACADE_PERCENTAGE)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -5,11 +13,39 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $extension: '%env(URL_ENV)%'
+
+    # Auto-register chain orchestrators except editorial ones (handled separately for migration)
     App\Orchestrator\Chain\:
         resource: '../../src/Orchestrator/Chain/'
         tags: ['app.orchestrators']
         exclude:
             - '../../src/Orchestrator/Chain/Multimedia/'
+            - '../../src/Orchestrator/Chain/EditorialOrchestrator.php'
+            - '../../src/Orchestrator/Chain/EditorialOrchestratorFacade.php'
+            - '../../src/Orchestrator/Chain/EditorialOrchestratorSelector.php'
+            - '../../src/Orchestrator/Chain/EditorialOrchestratorInterface.php'
+        lazy: true
+        shared: true
+
+    # Legacy EditorialOrchestrator (not tagged, used by selector)
+    App\Orchestrator\Chain\EditorialOrchestrator:
+        lazy: true
+        shared: true
+
+    # New EditorialOrchestratorFacade (not tagged, used by selector)
+    App\Orchestrator\Chain\EditorialOrchestratorFacade:
+        lazy: true
+        shared: true
+
+    # EditorialOrchestratorSelector - routes between legacy and facade based on feature flag
+    App\Orchestrator\Chain\EditorialOrchestratorSelector:
+        arguments:
+            $legacyOrchestrator: '@App\Orchestrator\Chain\EditorialOrchestrator'
+            $facadeOrchestrator: '@App\Orchestrator\Chain\EditorialOrchestratorFacade'
+            $logger: '@logger'
+            $facadeEnabled: '%orchestrator.facade.enabled%'
+            $facadePercentage: '%orchestrator.facade.percentage%'
+        tags: ['app.orchestrators']
         lazy: true
         shared: true
 

@@ -34,7 +34,9 @@ final class ImageSizesRegistryTest extends TestCase
         $this->assertContains('4:3', $ratios);
         $this->assertContains('16:9', $ratios);
         $this->assertContains('1:1', $ratios);
-        $this->assertCount(5, $ratios);
+        $this->assertContains('3:2', $ratios);
+        $this->assertContains('2:3', $ratios);
+        $this->assertCount(7, $ratios);
     }
 
     public function testIsRatioSupported(): void
@@ -90,6 +92,8 @@ final class ImageSizesRegistryTest extends TestCase
         $this->assertArrayHasKey('1:1', $allSizes);
         $this->assertArrayHasKey('3:4', $allSizes);
         $this->assertArrayHasKey('9:16', $allSizes);
+        $this->assertArrayHasKey('3:2', $allSizes);
+        $this->assertArrayHasKey('2:3', $allSizes);
     }
 
     public function testAspectRatioConstants(): void
@@ -99,6 +103,8 @@ final class ImageSizesRegistryTest extends TestCase
         $this->assertEquals('1:1', ImageSizesRegistry::ASPECT_RATIO_1_1);
         $this->assertEquals('3:4', ImageSizesRegistry::ASPECT_RATIO_3_4);
         $this->assertEquals('9:16', ImageSizesRegistry::ASPECT_RATIO_9_16);
+        $this->assertEquals('3:2', ImageSizesRegistry::ASPECT_RATIO_3_2);
+        $this->assertEquals('2:3', ImageSizesRegistry::ASPECT_RATIO_2_3);
     }
 
     private function parseRatio(string $ratio): float
