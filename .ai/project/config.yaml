@@ -33,10 +33,18 @@ database:
 
 # Workflow preferences
 workflow:
-  default: "task-breakdown"     # Default workflow to suggest
+  # IMPORTANT: task-breakdown is the DEFAULT for all features
+  # It provides exhaustive planning with detailed tasks before implementation
+  default: "task-breakdown"     # Default workflow for features (ALWAYS use this first)
+  implementation: "default"     # Workflow for implementation after task-breakdown
+  simple_tasks: "implementation-only"  # Workflow for bug fixes and trivial tasks
   auto_detect_complexity: true
   parallel_execution: true      # Enable backend/frontend parallel work
   api_mocking: true             # Enable API mocking when backend not ready
+
+  # Workflow sequence for features:
+  # 1. task-breakdown.yaml -> Creates detailed planning (10 documents)
+  # 2. default.yaml -> Implementation following the detailed tasks
 
 # Git configuration
 git:

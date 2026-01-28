@@ -9,16 +9,44 @@
 **CRITICAL**: Before executing ANY request from the user, you MUST:
 
 1. **Identify the workflow type** based on the request:
-   - Feature development -> Use `default.yaml` or `task-breakdown.yaml`
-   - Bug fixes -> Use `implementation-only.yaml`
-   - Simple tasks -> Use `implementation-only.yaml`
+   - **Feature development** -> Use `task-breakdown.yaml` (ALWAYS for new features)
+   - **Bug fixes** -> Use `implementation-only.yaml`
+   - **Simple/trivial tasks** -> Use `implementation-only.yaml`
 
 2. **Read the appropriate workflow** from `.ai/extensions/workflows/`
 
 3. **Follow the workflow stages** in order:
-   - Planning -> Implementation -> Review -> Compound
+   - For features: Planning (task-breakdown) -> Implementation (default) -> Review -> Compound
+   - For bug fixes: Direct implementation -> Review
 
 4. **Update state** in `50_state.md` at each stage
+
+### Rule 1.1: Default Workflow is task-breakdown
+
+**For ANY new feature or significant change**, ALWAYS use `task-breakdown.yaml` first:
+
+1. **Why task-breakdown first?**
+   - Creates exhaustive documentation (10 documents)
+   - Each task has: code examples, acceptance criteria, verification commands
+   - Provides time estimates per task and total
+   - Maps dependencies explicitly
+   - Reduces ambiguity and re-work
+
+2. **Workflow sequence for features:**
+   ```
+   Step 1: task-breakdown.yaml (Planning ONLY)
+           → Creates: 00_requirements, 10_architecture, 15_data_model,
+                      20_api_contracts, 30_tasks_backend, 31_tasks_frontend,
+                      32_tasks_qa, 35_dependencies, FEATURE_X.md, 50_state.md
+
+   Step 2: default.yaml (Implementation)
+           → Backend, Frontend, QA follow the detailed tasks from Step 1
+   ```
+
+3. **When to skip task-breakdown:**
+   - Bug fixes (use `implementation-only.yaml`)
+   - Trivial changes < 1 hour (use `implementation-only.yaml`)
+   - Documentation-only changes (use `implementation-only.yaml`)
 
 ### Rule 2: Mandatory Readings Before Any Work
 
@@ -65,11 +93,47 @@ After completing each checkpoint:
 
 | Request Type | Workflow | Description |
 |--------------|----------|-------------|
-| New feature | `default.yaml` | Full workflow: Planning -> Backend -> Frontend -> QA |
-| Complex feature | `task-breakdown.yaml` | Extended planning with detailed task breakdown |
-| Bug fix | `implementation-only.yaml` | Direct implementation without full planning |
-| Refactoring | `implementation-only.yaml` | Direct implementation |
-| Documentation | `implementation-only.yaml` | Direct implementation |
+| **New feature** | `task-breakdown.yaml` → `default.yaml` | First detailed planning, then implementation |
+| **Complex feature** | `task-breakdown.yaml` → `default.yaml` | Same as above (always use task-breakdown) |
+| **Bug fix** | `implementation-only.yaml` | Direct implementation without planning |
+| **Refactoring** | `implementation-only.yaml` | Direct implementation |
+| **Documentation** | `implementation-only.yaml` | Direct implementation |
+| **Trivial task** | `implementation-only.yaml` | Tasks < 1 hour |
+
+### Feature Development Flow (MANDATORY)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    NEW FEATURE REQUEST                       │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│ PHASE 1: task-breakdown.yaml (Planning)                     │
+│                                                             │
+│ Creates 10 documents:                                       │
+│ • 00_requirements_analysis.md (what & why)                  │
+│ • 10_architecture.md (DDD layers, components)               │
+│ • 15_data_model.md (database schema)                        │
+│ • 20_api_contracts.md (all endpoints with examples)         │
+│ • 30_tasks_backend.md (detailed tasks with code)            │
+│ • 31_tasks_frontend.md (detailed tasks with code)           │
+│ • 32_tasks_qa.md (test cases)                               │
+│ • 35_dependencies.md (task dependencies map)                │
+│ • FEATURE_X.md (executive summary)                          │
+│ • 50_state.md (state tracking)                              │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│ PHASE 2: default.yaml (Implementation)                      │
+│                                                             │
+│ Roles follow detailed tasks from Phase 1:                   │
+│ • Backend: reads 30_tasks_backend.md, implements step by step│
+│ • Frontend: reads 31_tasks_frontend.md, implements          │
+│ • QA: reads 32_tasks_qa.md, validates                       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## Quick Commands
 
