@@ -13,4 +13,6 @@ interface URLGenerationServiceInterface
     public function generateTagUrl(array $tag, array $section): string;
 
     public function generateJournalistUrl(array $journalist, array $section): string;
+
+    public function generateGenericUrl(string $format, string $subdomain, string $siteId, string $urlPath): string;
 }
