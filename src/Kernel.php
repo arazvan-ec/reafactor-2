@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Infrastructure\DependencyInjection\Compiler\AggregatorCompilerPass;
+use App\Infrastructure\DependencyInjection\Compiler\BodyElementTransformerCompilerPass;
 use App\Infrastructure\DependencyInjection\Compiler\JsonTransformerCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,5 +29,6 @@ class Kernel extends BaseKernel
         // Register aggregator and transformer compiler passes
         $container->addCompilerPass(new AggregatorCompilerPass());
         $container->addCompilerPass(new JsonTransformerCompilerPass());
+        $container->addCompilerPass(new BodyElementTransformerCompilerPass());
     }
 }
